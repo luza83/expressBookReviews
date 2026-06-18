@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require("axios");
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
@@ -51,6 +52,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
   const result = books[isbn]
   res.send(result);
 });
+
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
@@ -81,5 +83,50 @@ public_users.get('/review/:isbn',function (req, res) {
   const existinBook = books[isbn];
   res.send(existinBook.reviews);
  });
+
+ 
+ async function getBooks() {
+    try {
+      const response = await axios.get("http://localhost:3000/");
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function getBookByISBN(isbn) {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/isbn/${isbn}`
+      );
+  
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  
+  async function getBookByAuthor(author) {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/author/${author}`
+      );
+  
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  async function getBookByTitle(title) {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/author/${title}`
+      );
+  
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
 
 module.exports.general = public_users;
