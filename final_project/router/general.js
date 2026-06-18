@@ -93,17 +93,17 @@ public_users.get('/review/:isbn',function (req, res) {
       console.log(error);
     }
   }
-  async function getBookByISBN(isbn) {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/isbn/${isbn}`
-      );
-  
+function getBookByISBN(isbn) {
+    axios.get(`http://localhost:3000/isbn/${isbn}`)
+    .then((response) => {
       console.log(response.data);
-    } catch (error) {
+    })
+    .catch((error) => {
       console.log(error.message);
-    }
+    });
   }
+
+  
   
   async function getBookByAuthor(author) {
     try {
