@@ -66,21 +66,25 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     console.log("USER: "+req.authorization)
     const user = req.session.authorization.username;
     if (books[isbn]) {
-        console.log(books[isbn])
-        
         if (newReview) {
-            books[isbn].reviews[user] = {
-                review: newReview
-            };
+            books[isbn].reviews[user] = newReview
         }
-  
         res.send(`Book with the isbn ${isbn} has got a new review by ${user}: ${newReview}`);
         } else {
-        // Respond if friend with specified email is not found
-        res.send("Unable to find book!");
+  res.send("Unable to find book!");
         }
 });
-
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    
+    const isbn = req.params.isbn;
+    const user = req.session.authorization.username;
+    console.log("1 "+books[isbn].reviews)
+    if(books[isbn] && user.length > 0){
+        delete books[isbn].reviews[user];
+    }
+      console.log("2 "+books[isbn].reviews)
+    res.send(`Review from ${user} deleted.`);
+  });
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
